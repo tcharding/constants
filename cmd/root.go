@@ -87,7 +87,6 @@ func run(cmd *cobra.Command, args []string) {
 			continue
 		}
 		raw := search.ExtractConsants(f)
-
 		adt.AddRawConstants(path, raw)
 	}
 

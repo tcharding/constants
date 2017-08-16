@@ -12,11 +12,12 @@ type constant string
 type value string
 type path string
 
-type ADT map[path]map[constant]value
+type ADT struct {
+	m map[path]map[constant]value
+}
 
 func NewADT() *ADT {
-	var adt ADT = make(map[path]map[constant]value)
-	return &adt
+	return &ADT{m: make(map[path]map[constant]value)}
 }
 
 // AddRawConstants adds constants to ADT, raw[i] is of form
@@ -40,20 +41,18 @@ func (adt *ADT) AddRawConstants(path string, raw []string) error {
 }
 
 func (adt *ADT) addFileConstants(p string, m map[constant]value) error {
-	var mapADT map[path]map[constant]value = *adt
-	_, ok := mapADT[path(p)]
+	_, ok := adt.m[path(p)]
 	if ok {
 		return fmt.Errorf("constants for %s already exist", p)
 	}
 
-	mapADT[path(p)] = m
+	adt.m[path(p)] = m
 	return nil
 }
 
 // Dump dumps all constants to stdout.
 func (adt *ADT) Dump() {
-	var mapADT map[path]map[constant]value = *adt
-	for _, m := range mapADT {
+	for _, m := range adt.m {
 		for k, v := range m {
 			fmt.Printf("%s = %s\n", k, v)
 		}
@@ -62,10 +61,9 @@ func (adt *ADT) Dump() {
 
 // Duplicates prints duplicate constants to stdout.
 func (adt *ADT) Duplicates() {
-	var mapADT map[path]map[constant]value = *adt
 	seen := make(map[value]int)
 
-	for _, m := range mapADT {
+	for _, m := range adt.m {
 		for _, v := range m {
 			seen[v]++
 		}
@@ -74,7 +72,7 @@ func (adt *ADT) Duplicates() {
 	for v, num := range seen {
 		if num > 1 {
 			fmt.Printf("constant: %s\n", v)
-			for p, m := range mapADT {
+			for p, m := range adt.m {
 				for c, val := range m {
 					if v == val {
 						prettyPrint(c, p)
