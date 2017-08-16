@@ -6,11 +6,14 @@ Constants
 Example Usage
 -------------
 
-Example package: accounts
-
-
 ```console
-$ constants accounts
+$ constants github.com/USER/accounts
+name="John Woo"
+age="10"
+customer="John Woo"
+
+$ cd ~/$GOPATH/github.com/USER/
+$ constants ./accounts
 name="John Woo"
 age="10"
 customer="John Woo"
