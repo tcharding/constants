@@ -1,25 +1,19 @@
 Constants
 ---------
 
-`constants` is a tool to extract constants from within a Golang file or package.
+`constants` is a tool to extract constants from Go source files.
 
 
 ### Example Usage
 
 ```console
-$ constants github.com/USER/accounts
-name="John Woo"
-age="10"
-customer="John Woo"
+$ constants
+name = "John Woo"
+age = "10"
+customer = "John Woo"
 
-$ cd ~/$GOPATH/github.com/USER/
-$ constants ./accounts
-name="John Woo"
-age="10"
-customer="John Woo"
-
-$ constants accounts --duplicates
+$ constants --dup
 constant: "John Woo"
-	people.go: name
-	sales.go: customer
+	name: people.go
+	customer: sales.go
 ```
