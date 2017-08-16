@@ -24,19 +24,29 @@ import (
 
 var cfgFile string
 
+const long = `Searches a Golang package for constants.
+
+If package name is not provided, searches all Go files in $PWD.
+
+Example Usage:
+
+# Searches package 'accounts' in $PWD
+$ constants accounts
+
+# Searches package 'github.com/USER/accounts' in $GOPATH
+$ constants github.com/USER/accounts
+
+# Lists duplicate constants (including filename).
+$ constants accounts --duplicates`
+
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
-	Use:   "constants",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-// Uncomment the following line if your bare application
-// has an action associated with it:
-//	Run: func(cmd *cobra.Command, args []string) { },
+	Use:   "constants [PACKAGE]",
+	Short: "'greps' for Golang constants",
+	Long:  long,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("bare command not yet implemented")
+	},
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.
@@ -50,15 +60,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports Persistent Flags, which, if defined here,
-	// will be global for your application.
-
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.constants.yaml)")
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	RootCmd.Flags().Bool("dup", false, "Show duplicate constants.")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -68,8 +70,8 @@ func initConfig() {
 	}
 
 	viper.SetConfigName(".constants") // name of config file (without extension)
-	viper.AddConfigPath("$HOME")  // adding home directory as first search path
-	viper.AutomaticEnv()          // read in environment variables that match
+	viper.AddConfigPath("$HOME")      // adding home directory as first search path
+	viper.AutomaticEnv()              // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
