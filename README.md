@@ -6,13 +6,16 @@ Constants
 Example Usage
 -------------
 
+Example package: accounts
+
+
 ```console
-$ constants *accounts*
+$ constants accounts
 name="John Woo"
 age="10"
 customer="John Woo"
 
-$ constants *accounts* --duplicates
+$ constants accounts --duplicates
 constant: "John Woo"
 	people.go: name
 	sales.go: customer
