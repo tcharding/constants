@@ -1,10 +1,10 @@
 Constants
-=========
+---------
 
 `constants` is a tool to extract constants from within a Golang file or package.
 
-Example Usage
--------------
+
+### Example Usage
 
 ```console
 $ constants github.com/USER/accounts
